@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        h1 {
+            color: #525454;
+            font-size: 30px;
+            margin: 0 0 7px 10px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #525454;
+            font-size: 20px;
+            margin: 0 0 7px 10px;
+            text-align: center;
+        }
+
+        html, body {
+            font-family: Arial, sans-serif;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+    <style>
+        @import 'ui/css/evothings-app.css';
+    </style>
+
+    <script>
+        if (window.hyper && window.hyper.log) { console.log = hyper.log }
+    </script>
+
+    <script src="cordova.js"></script>
+    <script src="libs/jquery/jquery.js"></script>
+    <script src="libs/evothings/evothings.js"></script>
+    <script src="libs/evothings/ui/ui.js"></script>
+    <script src="app.js"></script>
+    <script src="mat.js"></script>
+    <script src="correo.js"></script>
+    <script src="exporting.js"></script>
+
+    <script src="index-map.html"></script>
+
+</head>
+
+<body ontouchstart="">
+
+    <header>
+        <button class="back">
+            <h2>MyBLEscan</h2>
+        </button>
+        <img class="logotype" src="ui/images/logo.png" alt="" />
+        <button id="menu-button" tabindex="0" onclick="this.focus()">
+            <img src="ui/images/menu.svg" />
+        </button>
+        <menu>
+            <menuitem>
+                <a onclick="window.open('index-map.html')">Google Map</a>
+            </menuitem>
+        </menu>
+    </header>
+
+
+    <h1>Indoor Bluetooth Samples</h1>
+
+    <button onclick="app.ui.onStartScanButton()" class="green">
+        START SCAN
+    </button>
+
+    <button onclick="app.ui.onStopScanButton()" class="bg_black">
+        STOP SCAN
+    </button>
+
+    <br />
+    <input type="checkbox" id="twentySamples" style="display:none"><FONT SIZE=3 id="twentySamplesText" style="display:none">GET ONLY 20 SAMPLES</FONT>
+
+
+
+    <button onclick="app.ui.startWalk()" id="startWalk" class="yellow" style="display:none">
+        START
+    </button>
+
+    <button onclick="app.ui.stopWalk()" id="stopWalk" class="yellow" style="display:none">
+        STOP
+    </button>
+
+    <form>
+        <div>
+            <label for="uname" id="location" style="display:none"><font size="3" id="locationText">Coordinates of the starting point:</font></label><br />
+            <input type="text" id="x_input" maxlength="7" placeholder="X location" style="display:none">
+            <input type="text" id="y_input" maxlength="7" placeholder="Y location" style="display:none">
+
+        </div>
+    </form>
+    <button id="saveButton" onclick="app.saveCoordinates()" class="red" style="display:none">
+        SAVE
+    </button>
+
+
+    <button id="sendEmail" onclick="exporting.sendMessage()" class="red" style="display:none">
+        EMAIL
+    </button>
+    <table id="readings" type="1"></table>
+
+    <p id="scan-status">Scan Paused</p>
+    <ul id="found-devices" class="dynamic"></ul>
+
+
+</body>
+
+</html>
+

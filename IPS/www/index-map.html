@@ -1,0 +1,469 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+            * element that contains the map. */
+        #pano {
+            float: left;
+            height: 60%;
+            width: 100%;
+        }
+
+        #map {
+            float: left;
+            height: 60%;
+            width: 100%;
+        }
+
+
+        h1 {
+            color: #525454;
+            font-size: 30px;
+            margin: 0 0 7px 10px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #525454;
+            font-size: 20px;
+            margin: 0 0 7px 10px;
+            text-align: center;
+        }
+
+        bot {
+            text-align: center;
+        }
+
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            font-family: Arial, sans-serif;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+    <style>
+        @import 'ui/css/evothings-app.css';
+    </style>
+</head>
+<body>
+    <header>
+        <button class="back">
+            <h2>MyBLEscan</h2>
+        </button>
+        <img class="logotype" src="ui/images/logo.png" alt="" />
+        <button id="menu-button" tabindex="0" onclick="this.focus()">
+            <img src="ui/images/menu.svg" />
+        </button>
+        <menu>
+            <menuitem>
+                <a onclick="window.open('index.html')">Bluetooth Samples</a>
+            </menuitem>
+        </menu>
+    </header>
+
+    <h1>U. Windsor Map</h1>
+    <div id="map"></div>
+    <div id="pano" style="display:none"></div>
+
+    <script>
+        var map;
+
+        function initMap() {
+            //here we hide one of the buttons
+            document.getElementById('see-marker').style.display = 'none';
+
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 42.304754, lng: -83.062408 },
+                zoom: 13,
+
+                //everything that is within styles, modify the appearance of the map, if there is nothing, the map is left by default.
+                styles: [
+                    {
+                        "elementType": "geometry",
+                        "stylers": [
+                            {
+                                "color": "#ffdc51"
+                            }
+                        ]
+                    },
+                    {
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                            {
+                                "color": "#746855"
+                            }
+                        ]
+                    },
+                    {
+                        "elementType": "labels.text.stroke",
+                        "stylers": [
+                            {
+                                "color": "#242f3e"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "administrative",
+                        "elementType": "labels.text",
+                        "stylers": [
+                            {
+                                "color": "#ffffff"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "administrative",
+                        "elementType": "labels.text.stroke",
+                        "stylers": [
+                            {
+                                "color": "#000000"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "administrative.country",
+                        "elementType": "geometry.stroke",
+                        "stylers": [
+                            {
+                                "color": "#ff3a35"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "administrative.locality",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                            {
+                                "color": "#ffffff"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "poi",
+                        "elementType": "labels.text",
+                        "stylers": [
+                            {
+                                "color": "#ffffff"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "poi",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                            {
+                                "color": "#ffffff"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "poi",
+                        "elementType": "labels.text.stroke",
+                        "stylers": [
+                            {
+                                "color": "#000000"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "poi.park",
+                        "elementType": "geometry",
+                        "stylers": [
+                            {
+                                "color": "#ffd631"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "poi.park",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                            {
+                                "color": "#6b9a76"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road",
+                        "stylers": [
+                            {
+                                "color": "#393939"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road",
+                        "elementType": "geometry",
+                        "stylers": [
+                            {
+                                "color": "#38414e"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road",
+                        "elementType": "geometry.stroke",
+                        "stylers": [
+                            {
+                                "color": "#212a37"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                            {
+                                "color": "#9ca5b3"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road.highway",
+                        "elementType": "geometry",
+                        "stylers": [
+                            {
+                                "color": "#746855"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road.highway",
+                        "elementType": "geometry.stroke",
+                        "stylers": [
+                            {
+                                "color": "#1f2835"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road.highway",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                            {
+                                "color": "#f3d19c"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "transit",
+                        "elementType": "geometry",
+                        "stylers": [
+                            {
+                                "color": "#2f3948"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "transit.station",
+                        "stylers": [
+                            {
+                                "color": "#f7ae04"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "transit.station",
+                        "elementType": "geometry",
+                        "stylers": [
+                            {
+                                "color": "#ffd631"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "transit.station",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                            {
+                                "color": "#ffffff"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "transit.station",
+                        "elementType": "labels.text.stroke",
+                        "stylers": [
+                            {
+                                "color": "#000000"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "water",
+                        "elementType": "geometry",
+                        "stylers": [
+                            {
+                                "color": "#005569"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "water",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                            {
+                                "color": "#515c6d"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "water",
+                        "elementType": "labels.text.stroke",
+                        "stylers": [
+                            {
+                                "color": "#17263c"
+                            }
+                        ]
+                    }
+                ]
+            });
+
+            //this is only a variable that contains the information required to create the street view
+            var panorama = new google.maps.StreetViewPanorama(
+                document.getElementById('pano'), {
+                    position: { lat: 42.3043142, lng: -83.0682277 },
+                    pov: {
+                        heading: 34,
+                        pitch: 10
+                    }
+                });
+
+            //here we create the street view in the map
+            map.setStreetView(panorama);
+
+            //this variable contains the information required to create a marker in google maps
+            //we can create as many markers as we need
+            var marker = new google.maps.Marker({
+                position: { lat: 42.3043142, lng: -83.0682277 },
+                //we specificate in which map the marker is going to appear.
+                map: map,
+                //this animation is only visible when we open the map
+                animation: google.maps.Animation.DROP,
+                title: 'University of Windsor',
+                // Style the markers a bit.
+                //icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+            });
+
+
+            //here we create an infowindow
+            var infoMarker = new google.maps.InfoWindow({
+                content: '<h1>University of Windsor</h1>' + 'This is the University of Windsor'
+            });
+
+
+            //and here we relationate the infowindow with the marker and map when the user clicks the marker
+            marker.addListener('click', function () {
+                infoMarker.open(map, marker);
+            });
+
+            //'hide-marker' is the ID of the showed button and hideMarker is the function to be realized when a click occurs
+            document.getElementById('hide-marker').addEventListener('click', hideMarker);
+
+            //function called when someone clicks the button 'hide-marker'
+            function hideMarker() {
+                marker.setVisible(false);
+                document.getElementById('see-marker').style.display = 'inline';
+                document.getElementById('hide-marker').style.display = 'none';
+            }
+
+            //'see-marker' is the ID of the showed button and showMarker is the function to be realized when a click occurs
+            document.getElementById('see-marker').addEventListener('click', showMarker);
+
+            //function called when someone clicks the button 'see-marker'
+            function showMarker() {
+                marker.setVisible(true);
+                document.getElementById('see-marker').style.display = 'none';
+                document.getElementById('hide-marker').style.display = 'inline';
+            }
+            //'show-location' is the ID of the button and getLocation is the function to be realized when a click occurs
+            document.getElementById('show-location').addEventListener('click', getLocation);
+
+
+            var mapView = true;
+            //'show-location' is the ID of the button and getLocation is the function to be realized when a click occurs
+            document.getElementById('changeView').addEventListener('click', changeView);
+            function changeView() {
+                if (mapView == true) {
+                    document.getElementById('map').style.display = 'none';
+                    document.getElementById('pano').style.display = 'inline';
+                    mapView = false;
+                }
+                else {
+                    document.getElementById('map').style.display = 'inline';
+                    document.getElementById('pano').style.display = 'none';
+                    mapView = true;
+                }
+            }
+
+
+            //here we are only calling a "space" in the document by its ID "demo"
+            var x = document.getElementById("demo");
+
+
+            //the instructions with 'navigator' are from geolocation pluging
+
+            function getLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPosition);
+                } else {
+                    x.innerHTML = "Geolocation is not supported by this browser.";
+                }
+            }
+            function showPosition(position) {
+                x.innerHTML = "Latitude: " + position.coords.latitude +
+                    "<br>Longitude: " + position.coords.longitude;
+
+                //this variable contains the information required to re-center the map
+                var center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                //here we re-center the map
+                map.panTo(center);
+                //this variable contains the information required to re-center the street view map
+                var panor = new google.maps.StreetViewPanorama(document.getElementById('pano'), {
+                    position: { lat: position.coords.latitude, lng: position.coords.longitude },
+                    pov: { heading: 180, pitch: 10 }
+                });
+
+                //here we re-center the street view
+                map.setStreetView(panor);
+
+            }
+
+
+
+
+
+        }
+
+
+    </script>
+
+    <div>
+        <!--in this section we create the buttons and "spaces" needed-->
+        <input id="show-location" type="button" value="My location">
+        <input id="hide-marker" type="button" value="Hide marker">
+        <input id="see-marker" type="button" value="Show marker">
+        <input id="changeView" type="button" value="Change View">
+        <p id="demo"></p>
+    </div>
+
+
+    <!--the key is AIzaSyDgYpWawqADFZOPbkbMYiNADw73W4_vTX8&libraries-->
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=geometrykey=AIzaSyCwYXuHnHl5aw3_3XjJEosQrlHsM3LNQC0&v=3&callback=initMap"
+            async defer></script>
+    <!--src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwYXuHnHl5aw3_3XjJEosQrlHsM3LNQC0&callback=initialize"-->
+
+</body>
+</html>
+
+
+
+
