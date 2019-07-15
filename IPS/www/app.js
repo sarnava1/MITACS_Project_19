@@ -24,16 +24,17 @@ app.startScan = function (callbackFun) {
 };
 
 
+
 app.ui.onStartScanButton = function () {
     app.startScan(app.ui.deviceFound);
     $('#scan-status').html('Scanning...');
     app.ui.updateTimer = setInterval(app.ui.displayDeviceList, 100);
-    document.getElementById('sendEmail').style.display = 'none';
-    document.getElementById('readings').style.display = 'none';
-    document.getElementById('location').style.display = 'inline';
-    document.getElementById('x_input').style.display = 'inline';
-    document.getElementById('y_input').style.display = 'inline';
-    document.getElementById('saveButton').style.display = 'inline';
+    //document.getElementById('sendEmail').style.display = 'none';
+    //document.getElementById('readings').style.display = 'none';
+    //document.getElementById('location').style.display = 'inline';
+    //document.getElementById('x_input').style.display = 'inline';
+    //document.getElementById('y_input').style.display = 'inline';
+    //document.getElementById('saveButton').style.display = 'inline';
 
 
 };
@@ -42,35 +43,35 @@ app.ui.onStartScanButton = function () {
 app.ui.onStopScanButton = function () {
     evothings.ble.stopScan();
     app.devices = {};
-    $('#scan-status').html('Scan Paused');
+    $('#scan-status').html('Calculation stopped');
     app.ui.displayDeviceList();
     clearInterval(app.ui.updateTimer);
     $('#readings').empty();
     csvText = '';
-    document.getElementById("x_input").value = '';
-    document.getElementById("y_input").value = '';
-    document.getElementById('twentySamples').style.display = 'none';
-    document.getElementById('twentySamplesText').style.display = 'none';
-    document.getElementById('startWalk').style.display = 'none';
-    document.getElementById('stopWalk').style.display = 'none';
-    document.getElementById('location').style.display = 'none';
-    document.getElementById('x_input').style.display = 'none';
-    document.getElementById('y_input').style.display = 'none';
-    document.getElementById('saveButton').style.display = 'none';
-    document.getElementById('sendEmail').style.display = 'none';
-    starting_point = true;
+    //document.getElementById("x_input").value = '';
+    //document.getElementById("y_input").value = '';
+    //document.getElementById('twentySamples').style.display = 'none';
+    //document.getElementById('twentySamplesText').style.display = 'none';
+    //document.getElementById('startWalk').style.display = 'none';
+    //document.getElementById('stopWalk').style.display = 'none';
+    //document.getElementById('location').style.display = 'none';
+    //document.getElementById('x_input').style.display = 'none';
+    //document.getElementById('y_input').style.display = 'none';
+    //document.getElementById('saveButton').style.display = 'none';
+    //document.getElementById('sendEmail').style.display = 'none';
+    //starting_point = true;
 };
 
 
 //sampleMatrix var;
-//The beacons with MAC till 8C were registered in the last year and now I have registered the rst of the MACs for the implementation of the IPS
-var beaconsMac = ['D4:F5:13:FF:11:4C', '20:C3:8F:E0:83:5B', '7C:EC:79:E0:20:24'/*'D4:F5:13:FE:81:6D'*/, '20:C3:8F:E0:90:8C', '7C:EC:79:3C:8E:86', '7C:EC:79:3C:93:F6',
+//the beacons with MAC till 8C were registered in the last year and now I have registered the rst of the MACs for the implementation of the IPS
+var beaconsMac = ['D4:F5:13:FF:11:4C', '20:C3:8F:E0:83:5B', /*'7C:EC:79:E0:20:24'/*'D4:F5:13:FE:81:6D'*/, '20:C3:8F:E0:90:8C', '7C:EC:79:3C:8E:86', '7C:EC:79:3C:93:F6',
     '7C:EC:79:3C:A4:A9', '7C:EC:79:3D:21:1A', '7C:EC:79:3D:A5:95', '7C:EC:79:3C:F6:9E', '7C:EC:79:3C:A4:D9', '7C:EC:79:3D:BD:1D', '7C:EC:79:3D:A0:11',
     'EC:11:27:29:B1:8F', '20:C3:8F:E0:90:9A', '20:C3:8F:E0:90:9D' ];
-//Similarly the extra rows in sampleMatrix were added as new beacons were added and similarly for the new beacons we added the new columns in init var
-var sampleMatrix = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []];
-var init = [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3];
+var sampleMatrix = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], []];
+var init = [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3];
 
+//The following part actually registers our beacons to whom we are listening
 app.ui.deviceFound = function (device, errorCode) {
     var wantedBeacon = false;
 
@@ -94,6 +95,8 @@ app.ui.deviceFound = function (device, errorCode) {
     };
 };
 
+
+//this part displays our devices in the form of the table
 app.ui.displayDeviceList = function () {
     $('#found-devices').empty();
 
@@ -126,7 +129,7 @@ app.ui.displayDeviceList = function () {
 
             $('#found-devices').append(element);
 
-
+            //document.getElementById('show_sm').innerHTML = 'the device with mac adrs ' + device.address + ' has rss of ' + device.rssi;
 
             if (limitedSamples == true || walk == true) {
                 beaconsMac.forEach(function (element, index) {
@@ -134,10 +137,6 @@ app.ui.displayDeviceList = function () {
                         sampleMatrix[index][0] = device.address;
                         sampleMatrix[index][1] = x;
                         sampleMatrix[index][2] = y;
-
-
-
-
                         sampleMatrix[index][init[index]] = device.rssi;
                         sampleMatrix[index][init[index] + 1] = h.getHours() + ':' + h.getMinutes() + ':' + h.getSeconds() + ':' + h.getMilliseconds();
                         init[index] = init[index] + 2;
@@ -154,12 +153,17 @@ app.ui.displayDeviceList = function () {
 
         }
     });
+    //document.getElementById('show_sm').innerHTML = 'the device with mac adrs ' + device_sm + ' has rss of ' + rssi_sm;
 };
 
+
 app.clearMatrix = function (matrix) {
+    //this empties the init array
     init.length = 0;
     matrix.forEach(function (element, index) {
+        //this empties the contents of the RSS and time for each of the beacons from the sampleMatrix matrix
         sampleMatrix[index].length = 0;
+        //pushes 3 at the end of the init array
         init.push(3);
     });
 };
@@ -231,6 +235,7 @@ app.ui.stopWalk = function () {
 
 };
 
+//we dont want to calculate the distance walked or time taken or speed so all the following lines are bogus
 var csvText = '';
 var initialX, initialY, endingX, endingY;
 var starting_point = true;
@@ -342,6 +347,7 @@ app.saveCoordinates = function () {
 
 };
 
+//we dont require all these in our present work
 app.calculateTime = function (startingTime, endingTime) {
     var start = startingTime.split(":");
     var end = endingTime.split(":");
@@ -351,6 +357,8 @@ app.calculateTime = function (startingTime, endingTime) {
     //totalTime is the difference between endTime and startTime in seconds
     return totalTime;
 };
+
+//we dont require all these in our present work
 app.calculateDistance = function (distanceX, distanceY) {
 
     if (distanceX != 0 && distanceY != 0) {
