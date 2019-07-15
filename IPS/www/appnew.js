@@ -111,7 +111,7 @@ Room no Xmin    Xmax    Ymin    Ymax
 2220	21.15	26.06	59.34	59.34
 2105B	26.85	26.85	73.14	81.94
 2105C	26.85	26.85	65.84	73.14
-2105D	12.31	14.61	62.59	85.46
+2105D	12.31	14.61	62.59	65.84
 2105A	11.86	14.37	62.59	85.46
 Elevator(2nd floor)	24.9	25.9	33.65	33.65
 Stair 5	7.06	8.28	33.65	33.65
@@ -293,12 +293,12 @@ roommatrix[24][1] = 26.85;
 roommatrix[24][2] = 26.85;
 roommatrix[24][3] = 65.84;
 roommatrix[24][4] = 73.14;
-//2105D	12.31	14.61	62.59	85.46
+//2105D	12.31	14.61	62.59	65.84
 roommatrix[25][0] = "2105D";
 roommatrix[25][1] = 12.31;
 roommatrix[25][2] = 14.61;
 roommatrix[25][3] = 62.59;
-roommatrix[25][4] = 85.46;
+roommatrix[25][4] = 65.84;
 //2105A	11.86	14.37	62.59	85.46
 roommatrix[26][0] = "2105A";
 roommatrix[26][1] = 11.86;
@@ -527,7 +527,7 @@ app.ui.onStartScanButton = function () {
     $('#scan-status').html('<b>Helping you...Calibrating results</b>');
     app.ui.updateTimer = setInterval(app.ui.displayDeviceList, 100);
 
-    setTimeout(function () { $('#scan-status').html('<b>Results ready..Click WHERE AM I??? to see!!</b>'); }, 3000);
+    setTimeout(function () { $('#scan-status').html('<b>Results ready..Click WHERE AM I??? to see!!</b>'); }, 2000);
 };
 
 
