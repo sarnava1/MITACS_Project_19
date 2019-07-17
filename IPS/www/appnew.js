@@ -531,7 +531,7 @@ app.ui.onStartScanButton = function () {
     $('#scan-status').html('<b>Helping you...Calibrating results</b>');
     app.ui.updateTimer = setInterval(app.ui.displayDeviceList, 100);
 
-    setTimeout(function () { $('#scan-status').html('<b>Results ready..Click WHERE AM I??? to see!!</b>'); }, 4000);
+    setTimeout(function () { $('#scan-status').html('<b>Results ready..Click WHERE AM I??? to see!!</b>'); }, 5000);
 };
 
 
