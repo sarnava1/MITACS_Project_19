@@ -10,6 +10,10 @@ app.ui = {};
 
 app.ui.updateTimer = null;
 
+// These variables store the average the beacons coordinates which are deployed(active) for the normalization
+var avgbx = 13.8875;
+var avgby = 49.35;
+
 // The beacons with MAC till 8C were registered in the last year and now I have registered the rst of the MACs for the implementation of the IPS
 var beaconsMac = ['D4:F5:13:FF:11:4C', '20:C3:8F:E0:83:5B', '20:C3:8F:E0:90:9A' /*'7C:EC:79:E0:20:24'/*'D4:F5:13:FE:81:6D'*/, '20:C3:8F:E0:90:8C', '7C:EC:79:3C:8E:86', '7C:EC:79:3C:93:F6',
     '7C:EC:79:3C:A4:A9', '7C:EC:79:3D:21:1A', '7C:EC:79:3D:A5:95', '7C:EC:79:3C:F6:9E', '7C:EC:79:3C:A4:D9', '7C:EC:79:3D:BD:1D', '7C:EC:79:3D:A0:11',
@@ -758,6 +762,16 @@ function showhidedlfn() {
     }
 }
 
+// This function will shift the coordinates of the beacons by avgbx and avgby for normalization
+function shiftcoordinates() {
+    for (var i = 0; i < 15; i++) {
+        if (sampleMatrix[i][0] != 0) {
+            sampleMatrix[i][1] = sampleMatrix[i][1] - avgbx;
+            sampleMatrix[i][2] = sampleMatrix[i][2] - avgby;
+        }
+    }
+}
+
 // This function calculates the RSS values in miliwatts from the dBm values which we got from the beacons
 function calcRSSmw() {
     for (var i = 0; i < 15; i++) {
@@ -777,6 +791,7 @@ function calcRSSmw() {
         }
     }
 }
+
 
 // This function shows the RSS values in miliwatts to the user
 function showRSSmw() {
@@ -890,6 +905,8 @@ function showxy() {
 
     xx = 0;
     yy = 0;
+
+
 
 
     for (var i = 0; i < 20; i++) {
@@ -1063,7 +1080,7 @@ function showfinalresult() {
 
     text = text + "<br>";
 
-    text = text + "Your coordinates are <b> X : </b> " + xx + " && <b> Y : </b> " + yy + "<br>";
+    text = text + "Your coordinates are <b> X : </b> " + ( xx + avgbx ) + " && <b> Y : </b> " + ( yy + avgby ) + "<br>";
 
     document.getElementById("showfinalresult").innerHTML = text;
 
@@ -1080,6 +1097,7 @@ function showfinalresult() {
 // The final button which will do all our calculations
 function doallcalc() {
 
+    shiftcoordinates();
        
     calcRSSmw();
 
