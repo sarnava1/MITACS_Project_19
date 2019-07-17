@@ -531,7 +531,7 @@ app.ui.onStartScanButton = function () {
     $('#scan-status').html('<b>Helping you...Calibrating results</b>');
     app.ui.updateTimer = setInterval(app.ui.displayDeviceList, 100);
 
-    setTimeout(function () { $('#scan-status').html('<b>Results ready..Click WHERE AM I??? to see!!</b>'); }, 2000);
+    setTimeout(function () { $('#scan-status').html('<b>Results ready..Click WHERE AM I??? to see!!</b>'); }, 4000);
 };
 
 
@@ -973,13 +973,13 @@ function calcroom() {
         score = 0;
         for (var j = 1; j <= 4; j++) {
             if (j == 1)
-                score = score + Math.abs(xx - roommatrix[i][j]);
+                score = score + Math.abs( ( xx + avgbx ) - roommatrix[i][j]);
             else if (j == 2)
-                score = score + Math.abs(xx - roommatrix[i][j]);
+                score = score + Math.abs( ( xx + avgbx) - roommatrix[i][j]);
             else if( j == 3 )
-                score = score + Math.abs(yy - roommatrix[i][j]);
+                score = score + Math.abs( ( yy + avgby) - roommatrix[i][j]);
             else if(j==4)
-                score = score + Math.abs(yy - roommatrix[i][j]);
+                score = score + Math.abs( ( yy + avgby) - roommatrix[i][j]);
         }
         m.set(roommatrix[i][0], score);
         scorearr[i] = score; 
