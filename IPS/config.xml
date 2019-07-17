@@ -108,3 +108,5 @@
   <plugin name="cordova-plugin-ble" spec="~2.0.1" src="https://github.com/evothings/cordova-ble" />
   <plugin name="cordova-plugin-email" spec="~1.2.7" src="https://github.com/hypery2k/cordova-email-plugin" />
 </widget>
+ <!-- ================================================================================================================ -->
+ <!-- WE DON'T HAVE ANY REQUIREMENT OF THE GEOLOCATION AND EMAIL COMPOSER PLUGIN IN THE PRESENT VERSION OF THE APP -->
