@@ -34,6 +34,20 @@
             border-radius: 8px;
         }
 
+        .button_black {
+            background-color: #000000; /* Black */
+            border: none;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 24px;
+            margin: 10px 6px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
         .button_blue {
             background-color: #00ffff; /* Blue */
             border: none;
@@ -57,7 +71,7 @@
     <script src="libs/evothings/ui/ui.js"></script>
     <script src="app.js"></script>
  </head>
-    <body ontouchstart="">
+<body ontouchstart="">
     <header>
         <button class="back">
             <h2>UWINDSOR IPS</h2>
@@ -76,112 +90,121 @@
         </menu>
         -->
     </header>
-        <div style="text-align: center">
-             <h1><b>Indoor Positioning System</b></h1>
-        </div>
-        <div style="text-align: center">
-            <button onclick="app.ui.onStartScanButton()" class="button_yellow">
-                CLICK TO ACTIVATE
-            </button>
-        </div>
-        <!--
-        <button onclick="app.ui.onStopScanButton()" class="bg_black">
-            STOP CALC
+    <div style="text-align: center">
+        <h1><b>Indoor Positioning System</b></h1>
+    </div>
+    <div style="text-align: center">
+        <!--This button will activate the scanning and read the RSS values from all the beacons-->
+        <button onclick="app.ui.onStartScanButton()" class="button_yellow">
+            CLICK TO ACTIVATE
         </button>
-        <button onclick="app.ui.onResetScanButton()" class="green">
+    </div>
+    <!--
+    <button onclick="app.ui.onStopScanButton()" class="bg_black">
+        STOP CALC
+    </button>
+    <button onclick="app.ui.onResetScanButton()" class="green">
+        REFRESH
+    </button>
+    <button onclick="showhidedlfn()" class="bg_black">
+        S/H DL
+    </button>
+    <button onclick="showRSStable()" class="green">
+        S/H MAT
+    </button>
+    <button onclick="calcRSSmw()" class="bg_black">
+        CALC RMW
+    </button>
+    <button onclick="showRSSmw()" class="green">
+        S/H RMW
+    </button>
+    <button onclick="calcsumcol()" class="bg_black">
+        CALC SCOL
+    </button>
+    <button onclick="showsumcol()" class="green">
+        S/H SCOL
+    </button>
+    <button onclick="calcwttable()" class="bg_black">
+        CALC WTAB
+    </button>
+    <button onclick="showweighttable()" class="green">
+        S/H WTAB
+    </button>
+    <button onclick="calcxy()" class="bg_black">
+        CALC XY
+    </button>
+    <button onclick="showxy()" class="green">
+        S/H XY
+    </button>
+    <button onclick="calcroom()" class="bg_black">
+        CALC ROOM
+    </button>
+    <button onclick="showroom()" class="green">
+        S/H ROOM
+    </button>
+    <button onclick="calcmap()" class="bg_black">
+        CALC MAP
+    </button>
+    <button onclick="showmap()" class="green">
+        S/H MAP
+    </button>
+    -->
+    <div style="text-align: center">
+        <!--This button will do all the calculations and return me my position-->
+        <button onclick="doallcalc()" class="button_blue">
+            WHERE AM I???
+        </button>
+    </div>
+    <div style="text-align: center">
+        <!--This button will calculate the moving average-->
+        <button onclick="calcmovavg()" class="button_black">
+            CALC MA
+        </button>
+    </div>
+    <!--
+    <div style="text-align: center">
+        <button onclick="showfinalresult()" class="bg_red">
+            S/H RESULTS
+        </button>
+    </div>
+    -->
+    <div style="text-align: center">
+        <!--This button will reset everything for the fresh reading!!-->
+        <button onclick="app.ui.onResetScanButton()" class="button_red">
             REFRESH
         </button>
-        <button onclick="showhidedlfn()" class="bg_black">
-            S/H DL
-        </button>
-        <button onclick="showRSStable()" class="green">
-            S/H MAT
-        </button>
-        <button onclick="calcRSSmw()" class="bg_black">
-            CALC RMW
-        </button>
-        <button onclick="showRSSmw()" class="green">
-            S/H RMW
-        </button>
-        <button onclick="calcsumcol()" class="bg_black">
-            CALC SCOL
-        </button>
-        <button onclick="showsumcol()" class="green">
-            S/H SCOL
-        </button>
-        <button onclick="calcwttable()" class="bg_black">
-            CALC WTAB
-        </button>
-        <button onclick="showweighttable()" class="green">
-            S/H WTAB
-        </button>
-        <button onclick="calcxy()" class="bg_black">
-            CALC XY
-        </button>
-        <button onclick="showxy()" class="green">
-            S/H XY
-        </button>
-        <button onclick="calcroom()" class="bg_black">
-            CALC ROOM
-        </button>
-        <button onclick="showroom()" class="green">
-            S/H ROOM
-        </button>
-        <button onclick="calcmap()" class="bg_black">
-            CALC MAP
-        </button>
-        <button onclick="showmap()" class="green">
-            S/H MAP
-        </button>
-        -->
-        <div style="text-align: center">
-            <button onclick="doallcalc()" class="button_blue">
-                WHERE AM I???
-            </button>
-        </div>
-        <!--
-        <div style="text-align: center">
-            <button onclick="showfinalresult()" class="bg_red">
-                S/H RESULTS
-            </button>
-        </div>
-        -->
-        <div style="text-align: center">
-            <button onclick="app.ui.onResetScanButton()" class="button_red">
-                REFRESH
-            </button>
-        </div>
-        <p id="scan-status">Click <b>CLICK TO ACTIVATE</b> button to help you!!</p>
+    </div>
+    <p id="scan-status">Click <b>CLICK TO ACTIVATE</b> button to help you!!</p>
 
-        <!-- This div shows the dynamic list of the beacons which are in our area. I have hided it for the final version as we dont need to show it-->
-        <div id="showhidedl" style="display: none">
-            <ul id="found-devices" class="dynamic"></ul>
-        </div>
-        <hr />
-        <div id="matrixdiv">
-            <p id="matrixshow"></p>
-        </div>
-        <div id="mwrssdiv">
-            <p id="mwrssshow"></p>
-        </div>
-        <div id="sumofcoldiv">
-            <p id="sumofcolshow"></p>
-        </div>
-        <div id="weighttable">
-            <p id="showweighttable"></p>
-        </div>
-        <div id="showingxy">
-            <p id="showxy"></p>
-        </div>
-        <div id="showingroom">
-            <p id="showroom"></p>
-        </div>
-        <div id="showingmap">
-            <p id="showmap"></p>
-        </div>
-        <div id="showingfinalresult">
-            <p id="showfinalresult"></p>
-        </div>
+    <!-- This div shows the dynamic list of the beacons which are in our area. I have hided it for the final version as we dont need to show it-->
+    <div id="showhidedl" style="display: none">
+        <ul id="found-devices" class="dynamic"></ul>
+    </div>
+    <hr />
+    <div id="matrixdiv">
+        <p id="matrixshow"></p>
+    </div>
+    <div id="mwrssdiv">
+        <p id="mwrssshow"></p>
+    </div>
+    <div id="sumofcoldiv">
+        <p id="sumofcolshow"></p>
+    </div>
+    <div id="weighttable">
+        <p id="showweighttable"></p>
+    </div>
+    <div id="showingxy">
+        <p id="showxy"></p>
+    </div>
+    <div id="showingroom">
+        <p id="showroom"></p>
+    </div>
+    <div id="showingmap">
+        <p id="showmap"></p>
+    </div>
+    <div id="showingfinalresult">
+        <p id="showfinalresult"></p>
+    </div>
 </body>
 </html>
 
