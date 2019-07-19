@@ -553,7 +553,7 @@ app.ui.onStartScanButton = function () {
     $('#scan-status').html('<b>Helping you...Calibrating results</b>');
     app.ui.updateTimer = setInterval(app.ui.displayDeviceList, 100);
 
-    setTimeout(function () { $('#scan-status').html('<b>Results ready..Click WHERE AM I??? to see!!</b>'); }, 5000);
+    setTimeout(function () { $('#scan-status').html('<b>Results ready..Click WHERE AM I??? to see!!</b>'); }, 3000);
 };
 
 
@@ -1280,6 +1280,7 @@ function calcmovavg() {
         arrymovavg[i] = 0;
     }
 
+    // This calculates the starting of the moving average
     arrxmovavg[0] = (xmovavg[0] + xmovavg[1]) / 2;
     arrymovavg[0] = (ymovavg[0] + ymovavg[1]) / 2;
     arrxmovavg[1] = (xmovavg[2] + arrxmovavg[0]) / 2;
@@ -1287,7 +1288,7 @@ function calcmovavg() {
     arrxmovavg[2] = (xmovavg[3] + arrxmovavg[1]) / 2;
     arrymovavg[2] = (ymovavg[3] + arrymovavg[1]) / 2;
 
-
+    // This loop will calculate the moving average
     for (var i = 3; i <= 200; i++) {
         arrxmovavg[i] = ( arrxmovavg[i - 1] + arrxmovavg[i - 3] )/2;
         arrymovavg[i] = ( arrymovavg[i - 1] + arrymovavg[i - 3] )/2;
