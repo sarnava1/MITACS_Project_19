@@ -11,8 +11,8 @@ app.ui = {};
 app.ui.updateTimer = null;
 
 // These variables store the average the beacons coordinates which are deployed(active) for the normalization
-var avgbx = 13.8875;
-var avgby = 49.35;
+var avgbx = 11.971;
+var avgby = 49.171;
 
 // The beacons with MAC till 8C were registered in the last year and now I have registered the rst of the MACs for the implementation of the IPS
 var beaconsMac = ['D4:F5:13:FF:11:4C', '20:C3:8F:E0:83:5B', '20:C3:8F:E0:90:9A' /*'7C:EC:79:E0:20:24'/*'D4:F5:13:FE:81:6D'*/, '20:C3:8F:E0:90:8C', '7C:EC:79:3C:8E:86', '7C:EC:79:3C:93:F6',
