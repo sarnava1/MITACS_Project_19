@@ -86,6 +86,16 @@ var score = 0;
 // This variable will store the count of the no of rooms that we want to display in our result
 var count = 0;
 
+// This array will have the 4 readings for the moving avg of the x coordinates
+var xmovavg = [0, 0, 0, 0];
+
+// This array will have the 4 readings for the moving avg of the y coordinates
+var ymovavg = [0, 0, 0, 0];
+
+//This variable will be used to calculate the moving average
+var indexmovavg = 0;
+
+
 // This is the data of the POI points in the 
 /*
 Room no Xmin    Xmax    Ymin    Ymax
@@ -502,6 +512,15 @@ app.ui.onStartScanButton = function () {
 
     count = 0;
 
+    //xmovavg = [0, 0, 0, 0];
+
+    //ymovavg = [0, 0, 0, 0];
+
+    //indexmovavg = 0;
+
+    if (indexmovavg > 3)
+        indexmovavg = 0;
+
     // Initially there should be no writing on the screen
     var displayvanish = document.getElementById("showfinalresult");
     displayvanish.style.display = "none";
@@ -525,6 +544,9 @@ app.ui.onStartScanButton = function () {
     displayvanish.style.display = "none";
 
     displayvanish = document.getElementById("mwrssshow");
+    displayvanish.style.display = "none";
+
+    displayvanish = document.getElementById("showmovavg");
     displayvanish.style.display = "none";
 
     app.startScan(app.ui.deviceFound);
@@ -599,6 +621,15 @@ app.ui.onResetScanButton = function () {
 
     count = 0;
 
+    //xmovavg = [0, 0, 0, 0];
+
+    //ymovavg = [0, 0, 0, 0];
+
+    //indexmovavg = 0;
+
+    if (indexmovavg > 3)
+        indexmovavg = 0;
+
     // All the writings on the screen should vanish on pressing the RESET button
     var displayvanish = document.getElementById("showfinalresult");
     displayvanish.style.display = "none";
@@ -624,6 +655,9 @@ app.ui.onResetScanButton = function () {
     displayvanish = document.getElementById("mwrssshow");
     displayvanish.style.display = "none";
 
+    displayvanish = document.getElementById("showmovavg");
+    displayvanish.style.display = "none";
+
     evothings.ble.stopScan();
     app.devices = {};
 
@@ -635,6 +669,100 @@ app.ui.onResetScanButton = function () {
     clearInterval(app.ui.updateTimer);
 
 };
+
+// This function will reset everything to initial state after calculating moving average
+function refreshmovavg() {
+
+    // Here we again initialize all the variables to their initial values as we are resetting for our fresh calculations
+
+    for (i = 0; i < 15; i++) {
+        for (j = 0; j < 23; j++) {
+            sampleMatrix[i][j] = 0;
+        }
+    }
+
+    for (i = 0; i < 15; i++) {
+        for (j = 0; j < 23; j++) {
+            mwrss[i][j] = 0;
+        }
+    }
+
+    for (i = 0; i < 15; i++) {
+        for (j = 0; j < 23; j++) {
+            weighttable[i][j] = 0;
+        }
+    }
+
+    init = [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3];
+
+    sumofbeaconsreadingsincol = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+    arry = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+    arrx = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+
+    xx = 0;
+    yy = 0;
+
+    // Clearing the map on the resetting of the calculations
+    m.clear();
+
+    min = 1000000;
+
+    scorearr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+    room = -1;
+
+    score = 0;
+
+    count = 0;
+
+    xmovavg = [0, 0, 0, 0];
+
+    ymovavg = [0, 0, 0, 0];
+
+    indexmovavg = 0;
+
+    // All the writings on the screen should vanish on pressing the RESET button
+    var displayvanish = document.getElementById("showfinalresult");
+    displayvanish.style.display = "none";
+
+    displayvanish = document.getElementById("showmap");
+    displayvanish.style.display = "none";
+
+    displayvanish = document.getElementById("showroom");
+    displayvanish.style.display = "none";
+
+    displayvanish = document.getElementById("showxy");
+    displayvanish.style.display = "none";
+
+    displayvanish = document.getElementById("showweighttable");
+    displayvanish.style.display = "none";
+
+    displayvanish = document.getElementById("sumofcolshow");
+    displayvanish.style.display = "none";
+
+    displayvanish = document.getElementById("matrixdiv");
+    displayvanish.style.display = "none";
+
+    displayvanish = document.getElementById("mwrssshow");
+    displayvanish.style.display = "none";
+
+    displayvanish = document.getElementById("showmovavg");
+    displayvanish.style.display = "none";
+
+    evothings.ble.stopScan();
+    app.devices = {};
+
+    app.clearMatrix(beaconsMac);
+
+    $('#scan-status').html('Click <b>CLICK TO ACTIVATE</b> button to help you!!');
+
+    app.ui.displayDeviceList();
+    clearInterval(app.ui.updateTimer);
+}
+
 
 // This controls the ui on pressing the stop scan button
 app.ui.onStopScanButton = function () {
@@ -1080,7 +1208,13 @@ function showfinalresult() {
 
     text = text + "<br>";
 
-    text = text + "Your coordinates are <b> X : </b> " + ( xx + avgbx ) + " && <b> Y : </b> " + ( yy + avgby ) + "<br>";
+    text = text + "Your coordinates are <b> X : </b> " + (xx + avgbx) + " && <b> Y : </b> " + (yy + avgby) + "<br>";
+
+    if (indexmovavg <=3 ){
+    xmovavg[indexmovavg] = xx + avgbx;
+    ymovavg[indexmovavg] = yy + avgby;
+    indexmovavg++;
+    }
 
     document.getElementById("showfinalresult").innerHTML = text;
 
@@ -1100,7 +1234,7 @@ function doallcalc() {
     shiftcoordinates();
        
     calcRSSmw();
-
+        
     calcsumcol();
 
     calcwttable();
@@ -1115,4 +1249,60 @@ function doallcalc() {
 
     showfinalresult();
 
- }
+}
+
+// This function will calculate our moving average
+function calcmovavg() {
+
+    var curr_avgx, prev_avgx, curr_avgy, prev_avgy, threshold = 0.1;
+
+    /*
+    curr_avgx = (xmovavg[0] + xmovavg[1]) / 2;
+    curr_avgy = (ymovavg[0] + ymovavg[1]) / 2;
+    prev_avgx = curr_avgx;
+    prev_avgy = curr_avgy;
+    curr_avgx = (prev_avgx + xmovavg[2]) / 2;
+    curr_avgy = (prev_avgy + ymovavg[2]) / 2;
+    prev_avgx = curr_avgx;
+    prev_avgy = curr_avgy;
+    curr_avgx = (prev_avgx + xmovavg[3]) / 2;
+    curr_avgy = (prev_avgy + ymovavg[3]) / 2;
+    prev_avgx = curr_avgx;
+    prev_avgy = curr_avgy;
+    */
+
+    // These arrays will store the moving average results for the x and y coordinates
+    var arrxmovavg = [];
+    var arrymovavg = [];
+        
+    for (var i = 0; i <= 200; i++) {
+        arrxmovavg[i] = 0;
+        arrymovavg[i] = 0;
+    }
+
+    arrxmovavg[0] = (xmovavg[0] + xmovavg[1]) / 2;
+    arrymovavg[0] = (ymovavg[0] + ymovavg[1]) / 2;
+    arrxmovavg[1] = (xmovavg[2] + arrxmovavg[0]) / 2;
+    arrymovavg[1] = (ymovavg[2] + arrymovavg[0]) / 2;
+    arrxmovavg[2] = (xmovavg[3] + arrxmovavg[1]) / 2;
+    arrymovavg[2] = (ymovavg[3] + arrymovavg[1]) / 2;
+
+
+    for (var i = 3; i <= 200; i++) {
+        arrxmovavg[i] = ( arrxmovavg[i - 1] + arrxmovavg[i - 3] )/2;
+        arrymovavg[i] = ( arrymovavg[i - 1] + arrymovavg[i - 3] )/2;
+    }
+
+    text = "Your moving avg coordinates are <b> X : </b> " + arrxmovavg[200] + " && <b> Y : </b> " + arrymovavg[200] + "<br>";
+
+    document.getElementById("showmovavg").innerHTML = text;
+
+    var x = document.getElementById("showmovavg");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+
+    } else {
+        x.style.display = "none";
+    }
+
+}
