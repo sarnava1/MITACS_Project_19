@@ -61,6 +61,20 @@
             cursor: pointer;
             border-radius: 8px;
         }
+
+        .button_orange {
+            background-color: #ff6a00; /* Orange */
+            border: none;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 24px;
+            margin: 10px 6px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
     </style>
     <script>
         if (window.hyper && window.hyper.log) { console.log = hyper.log }
@@ -174,6 +188,12 @@
             REFRESH
         </button>
     </div>
+    <div style="text-align: center">
+        <!--This button will reset everything after we get the moving average!!-->
+        <button onclick="refreshmovavg()" class="button_orange">
+            REFRESH MA
+        </button>
+    </div>
     <p id="scan-status">Click <b>CLICK TO ACTIVATE</b> button to help you!!</p>
 
     <!-- This div shows the dynamic list of the beacons which are in our area. I have hided it for the final version as we dont need to show it-->
@@ -204,6 +224,9 @@
     </div>
     <div id="showingfinalresult">
         <p id="showfinalresult"></p>
+    </div>
+    <div id="showingmovingaverage">
+        <p id="showmovavg"></p>
     </div>
 </body>
 </html>
