@@ -84,7 +84,7 @@
     <script src="libs/evothings/evothings.js"></script>
     <script src="libs/evothings/ui/ui.js"></script>
     <script src="app.js"></script>
- </head>
+</head>
 <body ontouchstart="">
     <header>
         <button class="back">
@@ -107,17 +107,12 @@
     <div style="text-align: center">
         <h1><b>Indoor Positioning System</b></h1>
     </div>
-
-
-    <!--This button will activate the scanning and read the RSS values from all the beacons-->
-    <!--
     <div style="text-align: center">
-
+        <!--This button will activate the scanning and read the RSS values from all the beacons-->
         <button onclick="app.ui.onStartScanButton()" class="button_yellow">
             CLICK TO ACTIVATE
         </button>
     </div>
-    -->
     <!--
     <button onclick="app.ui.onStopScanButton()" class="bg_black">
         STOP CALC
@@ -168,24 +163,18 @@
         S/H MAP
     </button>
     -->
-    <!--This button will do all the calculations and return me my position-->
-    <!--
     <div style="text-align: center">
-
+        <!--This button will do all the calculations and return me my position-->
         <button onclick="doallcalc()" class="button_blue">
             WHERE AM I???
         </button>
     </div>
-    -->
-
-
     <div style="text-align: center">
         <!--This button will calculate the moving average-->
         <button onclick="calcmovavg()" class="button_black">
             CALC MA
         </button>
     </div>
-
     <!--
     <div style="text-align: center">
         <button onclick="showfinalresult()" class="bg_red">
@@ -193,27 +182,19 @@
         </button>
     </div>
     -->
-
-
-    <!--This button will reset everything for the fresh reading!!-->
-    <!--
     <div style="text-align: center">
-
+        <!--This button will reset everything for the fresh reading!!-->
         <button onclick="app.ui.onResetScanButton()" class="button_red">
             REFRESH
         </button>
     </div>
-    -->
-
     <div style="text-align: center">
         <!--This button will reset everything after we get the moving average!!-->
         <button onclick="refreshmovavg()" class="button_orange">
             REFRESH MA
         </button>
     </div>
-
-
-    <p id="scan-status">Click <b>CALC MA</b> button to calculate moving average!!</p>
+    <p id="scan-status">Click <b>CLICK TO ACTIVATE</b> button to help you!!</p>
 
     <!-- This div shows the dynamic list of the beacons which are in our area. I have hided it for the final version as we dont need to show it-->
     <div id="showhidedl" style="display: none">
@@ -249,4 +230,3 @@
     </div>
 </body>
 </html>
-
