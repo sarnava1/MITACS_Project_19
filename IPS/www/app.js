@@ -63,7 +63,7 @@ var arrx = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var arry = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 // This variable will store the avg X for a position
-var xx= 0 ;
+var xx = 0;
 
 // This variable will store the avg Y for a position
 var yy = 0;
@@ -86,15 +86,37 @@ var score = 0;
 // This variable will store the count of the no of rooms that we want to display in our result
 var count = 0;
 
-// This array will have the 4 readings for the moving avg of the x coordinates
+// This array will have the 4 readings for the moving avg of the x coordinates for the first algo
 var xmovavg = [0, 0, 0, 0];
 
-// This array will have the 4 readings for the moving avg of the y coordinates
+// This array will have the 4 readings for the moving avg of the y coordinates for the first algo
 var ymovavg = [0, 0, 0, 0];
 
-//This variable will be used to calculate the moving average
+//This variable will be used to calculate the moving average for the first algo
 var indexmovavg = 0;
 
+// This array will have the 4 readings for the moving avg of the x coordinates for the second algo
+var xmovavgsecond = [0, 0, 0, 0];
+
+// This array will have the 4 readings for the moving avg of the y coordinates for the second algo
+var ymovavgsecond = [0, 0, 0, 0];
+
+//This variable will be used to calculate the moving average for the second algo
+var indexmovavgsecond = 0;
+
+// These variables will store the result of our standard deviation of the coordinates 
+var sdx = 0;
+var sdy = 0;
+
+// These variables will contain the extremes for our standard deviation algorithm
+var maxsdx = 0;
+var minsdx = 0;
+var maxsdy = 0;
+var minsdy = 0;
+
+//These variables will the new average we have found out using the second algorith of using standard deviation
+var newavgx = 0;
+var newavgy = 0;
 
 // This is the data of the POI points in the 
 /*
@@ -152,11 +174,11 @@ SECTION 14	5	10	 25 	31
 
 // This matrix will store the Xmin, Xmax, Ymin, Ymax for all the POIs of our project
 var roommatrix = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [],
-                  [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []];
+[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []];
 
 // Storing the data in the roommatrix matrix
 //2106
-roommatrix[0][0] = 2106;          
+roommatrix[0][0] = 2106;
 roommatrix[0][1] = 7.97;
 roommatrix[0][2] = 11.86;
 roommatrix[0][3] = 85.46;
@@ -192,7 +214,7 @@ roommatrix[5][2] = 26.02;
 roommatrix[5][3] = 85.46;
 roommatrix[5][4] = 85.46;
 //2112
-roommatrix[6][0] = 2112; 
+roommatrix[6][0] = 2112;
 roommatrix[6][1] = 23.38;
 roommatrix[6][2] = 26.85;
 roommatrix[6][3] = 62.59;
@@ -464,9 +486,9 @@ app.startScan = function (callbackFun) {
 
 // This controls the ui on pressing the start scan button
 app.ui.onStartScanButton = function () {
-        
+
     // Here we again initialize our variables with their initial values
-    
+
     for (i = 0; i < 15; i++) {
         for (j = 0; j < 23; j++) {
             sampleMatrix[i][j] = 0;
@@ -493,7 +515,7 @@ app.ui.onStartScanButton = function () {
 
     arrx = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-    
+
     xx = 0;
     yy = 0;
 
@@ -510,6 +532,17 @@ app.ui.onStartScanButton = function () {
 
     count = 0;
 
+    sdx = 0;
+    sdy = 0;
+
+    maxsdx = 0;
+    minsdx = 0;
+    maxsdy = 0;
+    minsdy = 0;
+
+    newavgx = 0;
+    newavgy = 0;
+
     //xmovavg = [0, 0, 0, 0];
 
     //ymovavg = [0, 0, 0, 0];
@@ -518,6 +551,9 @@ app.ui.onStartScanButton = function () {
 
     if (indexmovavg > 3)
         indexmovavg = 0;
+
+    if (indexmovavgsecond > 3)
+        indexmovavgsecond = 0;
 
     // Initially there should be no writing on the screen
     var displayvanish = document.getElementById("showfinalresult");
@@ -574,8 +610,8 @@ app.clearMatrix = function (matrix) {
 app.ui.onResetScanButton = function () {
 
     // Here we again initialize all the variables to their initial values as we are resetting for our fresh calculations
-        
-    
+
+
     for (i = 0; i < 15; i++) {
         for (j = 0; j < 23; j++) {
             sampleMatrix[i][j] = 0;
@@ -619,6 +655,17 @@ app.ui.onResetScanButton = function () {
 
     count = 0;
 
+    sdx = 0;
+    sdy = 0;
+
+    maxsdx = 0;
+    minsdx = 0;
+    maxsdy = 0;
+    minsdy = 0;
+
+    newavgx = 0;
+    newavgy = 0;
+        
     //xmovavg = [0, 0, 0, 0];
 
     //ymovavg = [0, 0, 0, 0];
@@ -627,6 +674,9 @@ app.ui.onResetScanButton = function () {
 
     if (indexmovavg > 3)
         indexmovavg = 0;
+
+    if (indexmovavgsecond > 3)
+        indexmovavgsecond = 0;
 
     // All the writings on the screen should vanish on pressing the RESET button
     var displayvanish = document.getElementById("showfinalresult");
@@ -721,6 +771,23 @@ function refreshmovavg() {
     ymovavg = [0, 0, 0, 0];
 
     indexmovavg = 0;
+
+    xmovavgsecond = [0, 0, 0, 0];
+
+    ymovavgsecond = [0, 0, 0, 0];
+
+    indexmovavgsecond = 0;
+
+    sdx = 0;
+    sdy = 0;
+
+    maxsdx = 0;
+    minsdx = 0;
+    maxsdy = 0;
+    minsdy = 0;
+
+    newavgx = 0;
+    newavgy = 0;
 
     // All the writings on the screen should vanish on pressing the RESET button
     var displayvanish = document.getElementById("showfinalresult");
@@ -831,23 +898,23 @@ app.ui.displayDeviceList = function () {
             $('#found-devices').append(element);
 
             beaconsMac.forEach(function (element, index) {
-                    if (element == device.address) {
-                        if (init[index] <= 22) {
-                            sampleMatrix[index][0] = device.address;
-                            sampleMatrix[index][1] = x;
-                            sampleMatrix[index][2] = y;
-                            sampleMatrix[index][init[index]] = device.rssi;
-                            init[index] = init[index] + 1;
-                        } 
-        
-                    };
+                if (element == device.address) {
+                    if (init[index] <= 22) {
+                        sampleMatrix[index][0] = device.address;
+                        sampleMatrix[index][1] = x;
+                        sampleMatrix[index][2] = y;
+                        sampleMatrix[index][init[index]] = device.rssi;
+                        init[index] = init[index] + 1;
+                    }
 
-                });
+                };
+
+            });
             //};
 
         }
     });
-    
+
 };
 
 
@@ -859,12 +926,12 @@ function showRSStable() {
     text = text + "<ol> ";
     for (var i = 0; i < 15; i++) {
         text = text + "<li> "
-        for (var j = 0; j < 23; j++){
+        for (var j = 0; j < 23; j++) {
             text = text + sampleMatrix[i][j] + " ; ";
         }
         text = text + "</li> ";
     }
-    text  = text + "</ol> ";
+    text = text + "</ol> ";
     document.getElementById("matrixshow").innerHTML = text;
 
     var x = document.getElementById("matrixdiv");
@@ -874,7 +941,7 @@ function showRSStable() {
     } else {
         x.style.display = "none";
     }
-    
+
 }
 
 // This function shows/hides the dynamic list of the devices on clicking the SHOW/HIDE DL button
@@ -948,7 +1015,7 @@ function showRSSmw() {
 function calcsumcol() {
     for (var j = 3; j <= 22; j++) {
         for (var i = 0; i <= 14; i++) {
-            sumofbeaconsreadingsincol[j-3] = sumofbeaconsreadingsincol[j-3] + mwrss[i][j] ; 
+            sumofbeaconsreadingsincol[j - 3] = sumofbeaconsreadingsincol[j - 3] + mwrss[i][j];
         }
     }
 }
@@ -978,16 +1045,16 @@ function calcwttable() {
     for (j = 0; j <= 22; j++) {
         for (i = 0; i <= 14; i++) {
             if (j == 0) {
-                weighttable[i][j] = mwrss[i][j]; 
+                weighttable[i][j] = mwrss[i][j];
             } else if (j == 1) {
                 weighttable[i][j] = mwrss[i][j];
             } else if (j == 2) {
                 weighttable[i][j] = mwrss[i][j];
             } else {
-                if (sumofbeaconsreadingsincol[j-3]!=0) {
+                if (sumofbeaconsreadingsincol[j - 3] != 0) {
                     weighttable[i][j] = mwrss[i][j] / sumofbeaconsreadingsincol[j - 3];
                 }
-                
+
             }
         }
     }
@@ -1032,9 +1099,7 @@ function showxy() {
     xx = 0;
     yy = 0;
 
-
-
-
+       
     for (var i = 0; i < 20; i++) {
         xx = xx + arrx[i];
         yy = yy + arry[i];
@@ -1068,11 +1133,13 @@ function showxy() {
 }
 
 // This finds the average of the x and y values 
-function findxandyavg(){
+function findxandyavg() {
 
     xx = 0;
     yy = 0;
 
+    sdx = 0;
+    sdy = 0;
 
     for (var i = 0; i < 20; i++) {
         xx = xx + arrx[i];
@@ -1081,6 +1148,39 @@ function findxandyavg(){
 
     xx = xx / 20;
     yy = yy / 20;
+
+    for (var i = 0; i < 20; i++) {
+        sdx = sdx + (arrx[i] - xx) * (arrx[i] - xx);
+        sdy = sdy + (arry[i] - yy) * (arry[i] - yy);
+    }
+
+    sdx = sdx / 20;
+    sdy = sdy / 20;
+
+    sdx = Math.sqrt(sdx);
+    sdy = Math.sqrt(sdy);
+
+    maxsdx = xx + sdx;
+    minsdx = xx - sdx;
+    maxsdy = yy + sdy;
+    minsdy = yy - sdy;
+
+    newavgx = 0;
+    newavgy = 0;
+
+    // This variable will count the no of good coordinates we are getting from the pool of 20 coordinates
+    var countavg = 0;
+
+    for (var i = 0; i < 20; i++) {
+        if (arrx[i] >= minsdx && arrx[i] <= maxsdx && arry[i] >= minsdy && arry[i] <= maxsdy) {
+            newavgx = newavgx + arrx[i];
+            newavgy = newavgy + arry[i];
+            countavg++;
+        }
+    }
+
+    newavgx = newavgx / countavg;
+    newavgy = newavgy / countavg;
 
 }
 
@@ -1099,19 +1199,19 @@ function calcroom() {
         score = 0;
         for (var j = 1; j <= 4; j++) {
             if (j == 1)
-                score = score + Math.abs( ( xx + avgbx ) - roommatrix[i][j]);
+                score = score + Math.abs((xx + avgbx) - roommatrix[i][j]);
             else if (j == 2)
-                score = score + Math.abs( ( xx + avgbx) - roommatrix[i][j]);
-            else if( j == 3 )
-                score = score + Math.abs( ( yy + avgby) - roommatrix[i][j]);
-            else if(j==4)
-                score = score + Math.abs( ( yy + avgby) - roommatrix[i][j]);
+                score = score + Math.abs((xx + avgbx) - roommatrix[i][j]);
+            else if (j == 3)
+                score = score + Math.abs((yy + avgby) - roommatrix[i][j]);
+            else if (j == 4)
+                score = score + Math.abs((yy + avgby) - roommatrix[i][j]);
         }
         m.set(roommatrix[i][0], score);
-        scorearr[i] = score; 
+        scorearr[i] = score;
     }
 
-    
+
 }
 
 // This function displays the scorearr and the most probable room
@@ -1132,14 +1232,14 @@ function showroom() {
     text = text + "<ol> ";
 
     for (i = 0; i <= 47; i++) {
-        text = text + "<li> Room : " + roommatrix[i][0] + " && score : " + scorearr[i] + "</li>";  
+        text = text + "<li> Room : " + roommatrix[i][0] + " && score : " + scorearr[i] + "</li>";
     }
 
     text = text + "</ol>";
 
     text = text + " The most appropriate room is " + room + "<br>";
 
-    document.getElementById("showroom").innerHTML = text; 
+    document.getElementById("showroom").innerHTML = text;
 
     var x = document.getElementById("showroom");
     if (x.style.display === "none") {
@@ -1166,7 +1266,7 @@ function showmap() {
     text = text + "<ol>";
 
     for (let [k, v] of m) {
-        text = text + "<li> Room : " + k + " && Score : " + v + "</li>";    
+        text = text + "<li> Room : " + k + " && Score : " + v + "</li>";
     }
 
     text = text + "</ol>";
@@ -1188,7 +1288,7 @@ function showfinalresult() {
 
     count = 0;
 
-    text = "<b>You are near rooms : </b>" + "<br>"; 
+    text = "<b>You are near rooms : </b>" + "<br>";
 
     text = text + "<ol>";
 
@@ -1197,7 +1297,7 @@ function showfinalresult() {
             text = text + "<li><b><u> Room</b></u> : " + k + "</li>";
             count++;
         }
-        
+
     }
 
     text = text + "</ol>";
@@ -1206,12 +1306,22 @@ function showfinalresult() {
 
     text = text + "<br>";
 
-    text = text + "Your coordinates are <b> X : </b> " + (xx + avgbx) + " && <b> Y : </b> " + (yy + avgby) + "<br>";
+    // This was for the first algorithm
+    text = text + "Your coordinates from first algo are <b> X : </b> " + (xx + avgbx) + " && <b> Y : </b> " + (yy + avgby) + "<br>";
 
-    if (indexmovavg <=3 ){
-    xmovavg[indexmovavg] = xx + avgbx;
-    ymovavg[indexmovavg] = yy + avgby;
-    indexmovavg++;
+    // This is for the second algorithm
+    text = text + "Your coordinates from second algo are <b> X : </b> " + (newavgx + avgbx) + " && <b> Y : </b> " + (newavgy + avgby) + "<br>";
+
+    if (indexmovavg <= 3) {
+        xmovavg[indexmovavg] = xx + avgbx;
+        ymovavg[indexmovavg] = yy + avgby;
+        indexmovavg++;
+    }
+
+    if (indexmovavgsecond <= 3) {
+        xmovavgsecond[indexmovavgsecond] = newavgx + avgbx;
+        ymovavgsecond[indexmovavgsecond] = newavgy + avgby;
+        indexmovavgsecond++;
     }
 
     document.getElementById("showfinalresult").innerHTML = text;
@@ -1230,9 +1340,9 @@ function showfinalresult() {
 function doallcalc() {
 
     shiftcoordinates();
-       
+
     calcRSSmw();
-        
+
     calcsumcol();
 
     calcwttable();
@@ -1272,13 +1382,13 @@ function calcmovavg() {
     // These arrays will store the moving average results for the x and y coordinates
     var arrxmovavg = [];
     var arrymovavg = [];
-        
+
     for (var i = 0; i <= 200; i++) {
         arrxmovavg[i] = 0;
         arrymovavg[i] = 0;
     }
 
-    // This calculates the starting of the moving average
+    // This calculates the starting of the moving average for forst algorithm
     arrxmovavg[0] = (xmovavg[0] + xmovavg[1]) / 2;
     arrymovavg[0] = (ymovavg[0] + ymovavg[1]) / 2;
     arrxmovavg[1] = (xmovavg[2] + arrxmovavg[0]) / 2;
@@ -1286,13 +1396,35 @@ function calcmovavg() {
     arrxmovavg[2] = (xmovavg[3] + arrxmovavg[1]) / 2;
     arrymovavg[2] = (ymovavg[3] + arrymovavg[1]) / 2;
 
-    // This loop will calculate the moving average
+    // This loop will calculate the moving average for the first algo
     for (var i = 3; i <= 200; i++) {
-        arrxmovavg[i] = ( arrxmovavg[i - 1] + arrxmovavg[i - 3] )/2;
-        arrymovavg[i] = ( arrymovavg[i - 1] + arrymovavg[i - 3] )/2;
+        arrxmovavg[i] = (arrxmovavg[i - 1] + arrxmovavg[i - 3]) / 2;
+        arrymovavg[i] = (arrymovavg[i - 1] + arrymovavg[i - 3]) / 2;
     }
 
-    text = "Your moving avg coordinates are <b> X : </b> " + arrxmovavg[200] + " && <b> Y : </b> " + arrymovavg[200] + "<br>";
+    // This is for the first algorithm
+    text = "Your moving avg coordinates from 1st algo are <b> X : </b> " + arrxmovavg[200] + " && <b> Y : </b> " + arrymovavg[200] + "<br>";
+
+    for (var i = 0; i <= 200; i++) {
+        arrxmovavg[i] = 0;
+        arrymovavg[i] = 0;
+    }
+
+    arrxmovavg[0] = (xmovavgsecond[0] + xmovavgsecond[1]) / 2;
+    arrymovavg[0] = (ymovavgsecond[0] + ymovavgsecond[1]) / 2;
+    arrxmovavg[1] = (xmovavgsecond[2] + arrxmovavg[0]) / 2;
+    arrymovavg[1] = (ymovavgsecond[2] + arrymovavg[0]) / 2;
+    arrxmovavg[2] = (xmovavgsecond[3] + arrxmovavg[1]) / 2;
+    arrymovavg[2] = (ymovavgsecond[3] + arrymovavg[1]) / 2;
+
+    // This loop will calculate the moving average for the second algo
+    for (var i = 3; i <= 200; i++) {
+        arrxmovavg[i] = (arrxmovavg[i - 1] + arrxmovavg[i - 3]) / 2;
+        arrymovavg[i] = (arrymovavg[i - 1] + arrymovavg[i - 3]) / 2;
+    }
+
+    // This is for the second algorithm
+    text = "Your moving avg coordinates from 2nd algo are <b> X : </b> " + arrxmovavg[200] + " && <b> Y : </b> " + arrymovavg[200] + "<br>";
 
     document.getElementById("showmovavg").innerHTML = text;
 
