@@ -68,14 +68,27 @@ var xx = 0;
 // This variable will store the avg Y for a position
 var yy = 0;
 
-// This map will store the scores for the rooms
+// This map will store the scores for the rooms for the first algo
 const m = new Map();
+
+// This map will store the scores for the rooms for the second algo
+const m2 = new Map();
+
+// This map will store the scores for the rooms for the first algo for the moving avg coord
+const m3 = new Map();
+
+// This map will store the scores for the rooms for the second algo for the moving avg coord
+const m4 = new Map();
 
 // This variable will store the min of the score which will be attained by the rooms
 var min = 1000000;
 
-// This array will store the scores of all the rooms
+// This array will store the scores of all the rooms for the first algo
 var scorearr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+// This array will store the scores of all the rooms for the second algo
+var scorearr2 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
 
 // This variable will store the optimum room which has been found
 var room = -1;
@@ -114,7 +127,7 @@ var minsdx = 0;
 var maxsdy = 0;
 var minsdy = 0;
 
-//These variables will the new average we have found out using the second algorith of using standard deviation
+//These variables will hold the new average we have found out using the second algorith of using standard deviation
 var newavgx = 0;
 var newavgy = 0;
 
@@ -519,12 +532,21 @@ app.ui.onStartScanButton = function () {
     xx = 0;
     yy = 0;
 
-    // Clearing the map on the starting of the calculations
+    // Clearing the 1st map on the starting of the calculations
     m.clear();
+
+    // Clearing the 2nd map on the starting of the calculations
+    m2.clear();
+
+    m3.clear();
+
+    m4.clear();
 
     min = 1000000;
 
     scorearr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+    scorearr2 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
     room = -1;
 
@@ -642,12 +664,21 @@ app.ui.onResetScanButton = function () {
     xx = 0;
     yy = 0;
 
-    // Clearing the map on the resetting of the calculations
+    // Clearing the 1st map on the resetting of the calculations
     m.clear();
+
+    // Clearing the 2nd map on the resetting of the calculations
+    m2.clear();
+    
+    m3.clear();
+
+    m4.clear();
 
     min = 1000000;
 
     scorearr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+    scorearr2 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
     room = -1;
 
@@ -753,12 +784,21 @@ function refreshmovavg() {
     xx = 0;
     yy = 0;
 
-    // Clearing the map on the resetting of the calculations
+    // Clearing the first map on the resetting of the calculations
     m.clear();
+
+    // Clearing the 2nd map on the resetting of the calculations
+    m2.clear();
+
+    m3.clear();
+
+    m4.clear();
 
     min = 1000000;
 
     scorearr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+    scorearr2 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
     room = -1;
 
@@ -1149,6 +1189,7 @@ function findxandyavg() {
     xx = xx / 20;
     yy = yy / 20;
 
+    /*
     for (var i = 0; i < 20; i++) {
         sdx = sdx + (arrx[i] - xx) * (arrx[i] - xx);
         sdy = sdy + (arry[i] - yy) * (arry[i] - yy);
@@ -1181,7 +1222,7 @@ function findxandyavg() {
 
     newavgx = newavgx / countavg;
     newavgy = newavgy / countavg;
-
+    */
 }
 
 
@@ -1194,7 +1235,9 @@ function calcroom() {
     //var m = new Map();
 
     m.clear();
+    m2.clear();
 
+    // Calculations for the first algo
     for (var i = 0; i <= 47; i++) {
         score = 0;
         for (var j = 1; j <= 4; j++) {
@@ -1209,6 +1252,32 @@ function calcroom() {
         }
         m.set(roommatrix[i][0], score);
         scorearr[i] = score;
+    }
+
+    // These variables are required for calculating the scores of the rooms for the 2nd algorithm
+    var xavg = 0, yavg = 0, calc = 0, result = 0;
+    
+       
+
+    // Calculations for the second algo
+    for (var i = 0; i <= 47; i++) {
+        score = 0; xavg = 0; yavg = 0; calc = 0; result = 0;
+        for (var j = 1; j <= 4; j++) {
+            if (j == 1)
+                xavg = xavg + roommatrix[i][j];
+            else if (j == 2)
+                xavg = xavg + roommatrix[i][j];
+            else if (j == 3)
+                yavg = yavg + roommatrix[i][j];
+            else if (j == 4)
+                yavg = yavg + roommatrix[i][j];
+        }
+        xavg = xavg / 2;
+        yavg = yavg / 2;
+        calc = ((xx + avgbx) - xavg) * ((xx + avgbx) - xavg) + ((yy + avgby) - yavg) * ((yy + avgby) - yavg);
+        result = Math.sqrt(calc);
+        m2.set(roommatrix[i][0], result);
+        scorearr2[i] = result;
     }
 
 
@@ -1251,9 +1320,13 @@ function showroom() {
 
 }
 
-// This function sorts the map in the ascending order of the values
+// This function sorts the map in the ascending order of the values for both the algorithm
 function calcmap() {
     m[Symbol.iterator] = function* () {
+        yield* [...this.entries()].sort((a, b) => a[1] - b[1]);
+    }
+
+    m2[Symbol.iterator] = function* () {
         yield* [...this.entries()].sort((a, b) => a[1] - b[1]);
     }
 }
@@ -1288,7 +1361,7 @@ function showfinalresult() {
 
     count = 0;
 
-    text = "<b>You are near rooms : </b>" + "<br>";
+    text = "<b>You are near rooms from first algorithm : </b>" + "<br>";
 
     text = text + "<ol>";
 
@@ -1306,11 +1379,29 @@ function showfinalresult() {
 
     text = text + "<br>";
 
-    // This was for the first algorithm
+    text = text + "<b>You are near rooms from second algorithm : </b>" + "<br>";
+
+    text = text + "<ol>";
+
+    for (let [k, v] of m2) {
+        if (count <= 3) {
+            text = text + "<li><b><u> Room</b></u> : " + k + "</li>";
+            count++;
+        }
+
+    }
+
+    text = text + "</ol>";
+
+    count = 0;
+
+    text = text + "<br>";
+
+    // This is for the first algorithm
     text = text + "Your coordinates from first algo are <b> X : </b> " + (xx + avgbx) + " && <b> Y : </b> " + (yy + avgby) + "<br>";
 
     // This is for the second algorithm
-    text = text + "Your coordinates from second algo are <b> X : </b> " + (newavgx + avgbx) + " && <b> Y : </b> " + (newavgy + avgby) + "<br>";
+    //text = text + "Your coordinates from second algo are <b> X : </b> " + (newavgx + avgbx) + " && <b> Y : </b> " + (newavgy + avgby) + "<br>";
 
     if (indexmovavg <= 3) {
         xmovavg[indexmovavg] = xx + avgbx;
@@ -1405,6 +1496,102 @@ function calcmovavg() {
     // This is for the first algorithm
     text = "Your moving avg coordinates from 1st algo are <b> X : </b> " + arrxmovavg[200] + " && <b> Y : </b> " + arrymovavg[200] + "<br>";
 
+    m3.clear();
+    m4.clear();
+
+    var score = 0;
+
+    // Calculations for the first algo
+    for (var i = 0; i <= 47; i++) {
+        score = 0;
+        for (var j = 1; j <= 4; j++) {
+            if (j == 1)
+                score = score + Math.abs(arrxmovavg[200] - roommatrix[i][j]);
+            else if (j == 2)
+                score = score + Math.abs(arrxmovavg[200] - roommatrix[i][j]);
+            else if (j == 3)
+                score = score + Math.abs(arrymovavg[200] - roommatrix[i][j]);
+            else if (j == 4)
+                score = score + Math.abs(arrymovavg[200] - roommatrix[i][j]);
+        }
+        m3.set(roommatrix[i][0], score);
+        //scorearr[i] = score;
+    }
+
+    // These variables are required for calculating the scores of the rooms for the 2nd algorithm
+    var xavg = 0, yavg = 0, calc = 0, result = 0;
+
+
+
+    // Calculations for the second algo
+    for (var i = 0; i <= 47; i++) {
+        score = 0; xavg = 0; yavg = 0; calc = 0; result = 0;
+        for (var j = 1; j <= 4; j++) {
+            if (j == 1)
+                xavg = xavg + roommatrix[i][j];
+            else if (j == 2)
+                xavg = xavg + roommatrix[i][j];
+            else if (j == 3)
+                yavg = yavg + roommatrix[i][j];
+            else if (j == 4)
+                yavg = yavg + roommatrix[i][j];
+        }
+        xavg = xavg / 2;
+        yavg = yavg / 2;
+        calc = (arrxmovavg[200] - xavg) * (arrxmovavg[200] - xavg) + (arrymovavg[200] - yavg) * (arrymovavg[200] - yavg);
+        result = Math.sqrt(calc);
+        m4.set(roommatrix[i][0], result);
+        //scorearr2[i] = result;
+    }
+
+    m3[Symbol.iterator] = function* () {
+        yield* [...this.entries()].sort((a, b) => a[1] - b[1]);
+    }
+
+    m4[Symbol.iterator] = function* () {
+        yield* [...this.entries()].sort((a, b) => a[1] - b[1]);
+    }
+
+    count = 0;
+
+    text = text + "<b>You are near rooms from first algorithm by moving avg : </b>" + "<br>";
+
+    text = text + "<ol>";
+
+    for (let [k, v] of m3) {
+        if (count <= 3) {
+            text = text + "<li><b><u> Room</b></u> : " + k + "</li>";
+            count++;
+        }
+
+    }
+
+    text = text + "</ol>";
+
+    count = 0;
+
+    text = text + "<br>";
+
+    text = text + "<b>You are near rooms from second algorithm by mov avg : </b>" + "<br>";
+
+    text = text + "<ol>";
+
+    for (let [k, v] of m4) {
+        if (count <= 3) {
+            text = text + "<li><b><u> Room</b></u> : " + k + "</li>";
+            count++;
+        }
+
+    }
+
+    text = text + "</ol>";
+
+    count = 0;
+
+    text = text + "<br>";
+
+
+    /*
     for (var i = 0; i <= 200; i++) {
         arrxmovavg[i] = 0;
         arrymovavg[i] = 0;
@@ -1424,8 +1611,9 @@ function calcmovavg() {
     }
 
     // This is for the second algorithm
-    text = "Your moving avg coordinates from 2nd algo are <b> X : </b> " + arrxmovavg[200] + " && <b> Y : </b> " + arrymovavg[200] + "<br>";
-
+    text = text + "Your moving avg coordinates from 2nd algo are <b> X : </b> " + arrxmovavg[200] + " && <b> Y : </b> " + arrymovavg[200] + "<br>";
+    */
+    
     document.getElementById("showmovavg").innerHTML = text;
 
     var x = document.getElementById("showmovavg");
