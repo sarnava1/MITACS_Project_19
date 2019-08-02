@@ -11,11 +11,11 @@ app.ui = {};
 app.ui.updateTimer = null;
 
 // These variables store the average the beacons coordinates which are deployed(active) for the normalization
-var avgbx = 11.971;
-var avgby = 49.171;
+var avgbx = 8.05;
+var avgby = 41.95;
 
 // The beacons with MAC till 8C were registered in the last year and now I have registered the rst of the MACs for the implementation of the IPS
-var beaconsMac = ['D4:F5:13:FF:11:4C', '20:C3:8F:E0:83:5B', '20:C3:8F:E0:90:9A' /*'7C:EC:79:E0:20:24'/*'D4:F5:13:FE:81:6D'*/, '20:C3:8F:E0:90:8C', '7C:EC:79:3C:8E:86', '7C:EC:79:3C:93:F6',
+var beaconsMac = ['7C:EC:79:3C:A4:C6', '20:C3:8F:E0:83:5B', '20:C3:8F:E0:90:9A' /*'7C:EC:79:E0:20:24'/*'D4:F5:13:FE:81:6D'*/, '20:C3:8F:E0:90:8C', '7C:EC:79:3C:8E:86', '7C:EC:79:3C:93:F6',
     '7C:EC:79:3C:A4:A9', '7C:EC:79:3D:21:1A', '7C:EC:79:3D:A5:95', '7C:EC:79:3C:F6:9E', '7C:EC:79:3C:A4:D9', '7C:EC:79:3D:BD:1D', '7C:EC:79:3D:A0:11',
     'EC:11:27:29:B1:8F', '20:C3:8F:E0:90:9D'];
 
@@ -127,6 +127,8 @@ var minsdx = 0;
 var maxsdy = 0;
 var minsdy = 0;
 
+
+
 //These variables will hold the new average we have found out using the second algorith of using standard deviation
 var newavgx = 0;
 var newavgy = 0;
@@ -182,7 +184,7 @@ SECTION 10	5	 10	 16.5 	20.7
 SECTION 11	0.1  5	 20.7	25
 SECTION 12	5	 10	 20.7	25
 SECTION 13	0.1	 5	 25  	31
-SECTION 14	5	10	 25 	31
+2203        0.1  3   31     31
 */
 
 // This matrix will store the Xmin, Xmax, Ymin, Ymax for all the POIs of our project
@@ -230,26 +232,26 @@ roommatrix[5][4] = 85.46;
 roommatrix[6][0] = 2112;
 roommatrix[6][1] = 23.38;
 roommatrix[6][2] = 26.85;
-roommatrix[6][3] = 62.59;
-roommatrix[6][4] = 65.84;
+roommatrix[6][3] = 64;
+roommatrix[6][4] = 64;
 //2113   
 roommatrix[7][0] = 2113;
 roommatrix[7][1] = 19.9;
 roommatrix[7][2] = 23.38;
-roommatrix[7][3] = 62.59;
-roommatrix[7][4] = 65.84;
+roommatrix[7][3] = 64;
+roommatrix[7][4] = 64;
 //2114   
 roommatrix[8][0] = 2114;
 roommatrix[8][1] = 14.61;
 roommatrix[8][2] = 19.9;
-roommatrix[8][3] = 62.59;
-roommatrix[8][4] = 65.84;
+roommatrix[8][3] = 64;
+roommatrix[8][4] = 64;
 //2201
 roommatrix[9][0] = 2201;
 roommatrix[9][1] = 14.35;
 roommatrix[9][2] = 21.71;
-roommatrix[9][3] = 33.65;
-roommatrix[9][4] = 33.65;
+roommatrix[9][3] = 35;
+roommatrix[9][4] = 35;
 //2203
 roommatrix[10][0] = 2203;
 roommatrix[10][1] = 0.1;
@@ -259,27 +261,27 @@ roommatrix[10][4] = 30;
 //2205
 roommatrix[11][0] = 2205;
 roommatrix[11][1] = 13.34;
-roommatrix[11][2] = 25.99;
-roommatrix[11][3] = 35.92;
-roommatrix[11][4] = 35.92;
+roommatrix[11][2] = 21;
+roommatrix[11][3] = 37.3;
+roommatrix[11][4] = 37.3;
 //2207
 roommatrix[12][0] = 2207;
 roommatrix[12][1] = 11.09;
 roommatrix[12][2] = 13.34;
-roommatrix[12][3] = 35.92;
-roommatrix[12][4] = 35.92;
+roommatrix[12][3] = 37.3;
+roommatrix[12][4] = 37.3;
 //2208
 roommatrix[13][0] = 2208;
 roommatrix[13][1] = 8.77;
 roommatrix[13][2] = 11.09;
-roommatrix[13][3] = 35.92;
-roommatrix[13][4] = 35.92;
+roommatrix[13][3] = 37.3;
+roommatrix[13][4] = 37.3;
 //2209
 roommatrix[14][0] = 2209;
 roommatrix[14][1] = 1.94;
 roommatrix[14][2] = 8.77;
-roommatrix[14][3] = 35.92;
-roommatrix[14][4] = 35.92;
+roommatrix[14][3] = 37.3;
+roommatrix[14][4] = 37.3;
 //2211	
 roommatrix[15][0] = 2211;
 roommatrix[15][1] = 1.64;
@@ -314,20 +316,20 @@ roommatrix[19][4] = 59.34;
 roommatrix[20][0] = 2216;
 roommatrix[20][1] = 7.71;
 roommatrix[20][2] = 14.28;
-roommatrix[20][3] = 59.34;
-roommatrix[20][4] = 59.34;
+roommatrix[20][3] = 61;
+roommatrix[20][4] = 61;
 //2219	14.28	21.15	59.34	59.34
 roommatrix[21][0] = 2219;
 roommatrix[21][1] = 14.28;
 roommatrix[21][2] = 21.15;
-roommatrix[21][3] = 59.34;
-roommatrix[21][4] = 59.34;
+roommatrix[21][3] = 61;
+roommatrix[21][4] = 61;
 //2220	21.15	26.06	59.34	59.34
 roommatrix[22][0] = 2220;
 roommatrix[22][1] = 21.15;
 roommatrix[22][2] = 26.06;
-roommatrix[22][3] = 59.34;
-roommatrix[22][4] = 59.34;
+roommatrix[22][3] = 61;
+roommatrix[22][4] = 61;
 //2105B	26.85	26.85	73.14	81.94
 roommatrix[23][0] = "2105B";
 roommatrix[23][1] = 26.85;
@@ -344,8 +346,8 @@ roommatrix[24][4] = 73.14;
 roommatrix[25][0] = "2105D";
 roommatrix[25][1] = 12.31;
 roommatrix[25][2] = 14.61;
-roommatrix[25][3] = 62.59;
-roommatrix[25][4] = 65.84;
+roommatrix[25][3] = 64;
+roommatrix[25][4] = 64;
 //2105A	11.86	14.37	62.59	85.46
 roommatrix[26][0] = "2105A";
 roommatrix[26][1] = 11.86;
@@ -356,20 +358,20 @@ roommatrix[26][4] = 85.46;
 roommatrix[27][0] = "Elevator(2nd floor)";
 roommatrix[27][1] = 24.9;
 roommatrix[27][2] = 25.9;
-roommatrix[27][3] = 33.65;
-roommatrix[27][4] = 33.65;
+roommatrix[27][3] = 35;
+roommatrix[27][4] = 35;
 //Stair 5	7.06	8.28	33.65	33.65
 roommatrix[28][0] = "Stair 5";
 roommatrix[28][1] = 7.06;
 roommatrix[28][2] = 8.28;
-roommatrix[28][3] = 33.65;
-roommatrix[28][4] = 33.65;
+roommatrix[28][3] = 35;
+roommatrix[28][4] = 35;
 //Stair 6	5.36	6.55	62.59	62.59
 roommatrix[29][0] = "Stair 6";
 roommatrix[29][1] = 5.36;
 roommatrix[29][2] = 6.55;
-roommatrix[29][3] = 62.59;
-roommatrix[29][4] = 62.59;
+roommatrix[29][3] = 64;
+roommatrix[29][4] = 64;
 //Stair 7	0.1	0.1	88.01	89.1
 roommatrix[30][0] = "Stair 7";
 roommatrix[30][1] = 0.1;
@@ -380,14 +382,14 @@ roommatrix[30][4] = 89.1;
 roommatrix[31][0] = "Washroom W206";
 roommatrix[31][1] = 21.71;
 roommatrix[31][2] = 24.9;
-roommatrix[31][3] = 33.65;
-roommatrix[31][4] = 33.65;
+roommatrix[31][3] = 35;
+roommatrix[31][4] = 35;
 //Washroom W207	9.23	14.35	33.65	33.65
 roommatrix[32][0] = "Washroom W207";
 roommatrix[32][1] = 9.23;
 roommatrix[32][2] = 14.35;
-roommatrix[32][3] = 33.65;
-roommatrix[32][4] = 33.65;
+roommatrix[32][3] = 35;
+roommatrix[32][4] = 35;
 //SECTION 1	0.1	5	0.1	2.60
 roommatrix[33][0] = "2203 SECTION 1";
 roommatrix[33][1] = 0.1;
@@ -464,13 +466,13 @@ roommatrix[44][4] = 25;
 roommatrix[45][0] = "2203 SECTION 13";
 roommatrix[45][1] = 0.1;
 roommatrix[45][2] = 5;
-roommatrix[45][3] = 25;
+roommatrix[45][3] = 31;
 roommatrix[45][4] = 31;
-//SECTION 14	5	10	 25 	31
-roommatrix[46][0] = "2203 SECTION 14";
-roommatrix[46][1] = 5;
-roommatrix[46][2] = 10;
-roommatrix[46][3] = 25;
+//2203	.1	3	 31 	31
+roommatrix[46][0] = "2203";
+roommatrix[46][1] = .1;
+roommatrix[46][2] = 3;
+roommatrix[46][3] = 31;
 roommatrix[46][4] = 31;
 //2210    0.1     4       34      43
 roommatrix[47][0] = "2210";
@@ -1361,13 +1363,14 @@ function showfinalresult() {
 
     count = 0;
 
+    /*
     text = "<b>You are near rooms from first algorithm : </b>" + "<br>";
 
     text = text + "<ol>";
 
     for (let [k, v] of m) {
         if (count <= 3) {
-            text = text + "<li><b><u> Room</b></u> : " + k + "</li>";
+            text = text + "<li><b><u> Room</b></u> : " + k + " && score : " + v + " </li>";
             count++;
         }
 
@@ -1385,7 +1388,7 @@ function showfinalresult() {
 
     for (let [k, v] of m2) {
         if (count <= 3) {
-            text = text + "<li><b><u> Room</b></u> : " + k + "</li>";
+            text = text + "<li><b><u> Room</b></u> : " + k + " && score : " + v + " </li>";
             count++;
         }
 
@@ -1397,12 +1400,15 @@ function showfinalresult() {
 
     text = text + "<br>";
 
+    */
+
     // This is for the first algorithm
-    text = text + "Your coordinates from first algo are <b> X : </b> " + (xx + avgbx) + " && <b> Y : </b> " + (yy + avgby) + "<br>";
+    text = "Your coordinates are <b> X : </b> " + (xx + avgbx) + " && <b> Y : </b> " + (yy + avgby) + "<br>";
 
     // This is for the second algorithm
     //text = text + "Your coordinates from second algo are <b> X : </b> " + (newavgx + avgbx) + " && <b> Y : </b> " + (newavgy + avgby) + "<br>";
 
+    /*
     if (indexmovavg <= 3) {
         xmovavg[indexmovavg] = xx + avgbx;
         ymovavg[indexmovavg] = yy + avgby;
@@ -1414,6 +1420,7 @@ function showfinalresult() {
         ymovavgsecond[indexmovavgsecond] = newavgy + avgby;
         indexmovavgsecond++;
     }
+    */
 
     document.getElementById("showfinalresult").innerHTML = text;
 
@@ -1496,6 +1503,7 @@ function calcmovavg() {
     // This is for the first algorithm
     text = "Your moving avg coordinates from 1st algo are <b> X : </b> " + arrxmovavg[200] + " && <b> Y : </b> " + arrymovavg[200] + "<br>";
 
+    /*
     m3.clear();
     m4.clear();
 
@@ -1543,7 +1551,8 @@ function calcmovavg() {
         m4.set(roommatrix[i][0], result);
         //scorearr2[i] = result;
     }
-
+    */
+    /*
     m3[Symbol.iterator] = function* () {
         yield* [...this.entries()].sort((a, b) => a[1] - b[1]);
     }
@@ -1560,7 +1569,7 @@ function calcmovavg() {
 
     for (let [k, v] of m3) {
         if (count <= 3) {
-            text = text + "<li><b><u> Room</b></u> : " + k + "</li>";
+            text = text + "<li><b><u> Room</b></u> : " + k + " && score : " + v + " </li>";
             count++;
         }
 
@@ -1578,7 +1587,7 @@ function calcmovavg() {
 
     for (let [k, v] of m4) {
         if (count <= 3) {
-            text = text + "<li><b><u> Room</b></u> : " + k + "</li>";
+            text = text + "<li><b><u> Room</b></u> : " + k + " && score : " + v + " </li>";
             count++;
         }
 
@@ -1589,7 +1598,7 @@ function calcmovavg() {
     count = 0;
 
     text = text + "<br>";
-
+    */
 
     /*
     for (var i = 0; i <= 200; i++) {
